@@ -25,6 +25,7 @@ void I2C_Master_Wait(void) {
     SSPCON2 = 0;        // Xóa các bit điều khiển
     SSPADD = (_XTAL_FREQ/(4*Br))-1; // Cấu hình baud rate
     SSPSTAT = 0;        // Cấu hình chế độ slew rate
+    
     TRISC3 = 1;         // Cấu hình SCL và SDA là đầu vào
     TRISC4 = 1;
 }
@@ -58,7 +59,7 @@ unsigned short I2C_Master_Read(unsigned short a)
     I2C_Master_Wait();
     temp = SSPBUF; // Đọc dữ liệu từ SSPBUF
     I2C_Master_Wait();  
-    ACKDT = (a)?0:1; // Thiết lập bit ACK hoặc NACK dựa trên giá trị của a khi a=1: ACK, a=0: NACK ; ACK đọc tiếp, NACK kết thúc
+    ACKDT = (a)?1:0; // Thiết lập bit ACK hoặc NACK dựa trên giá trị của a khi a=0: ACK, a=1: NACK ; ACK đọc tiếp, NACK kết thúc
     ACKEN = 1; // Bắt đầu chuỗi ACK
     return temp;
 }
